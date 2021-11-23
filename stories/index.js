@@ -10,15 +10,16 @@ import Button from "components/Button";
 import DayListItem from "components/DayListItem";
 
 import DayList from "components/DayList";
+
+import InterviewerList from "components/InterviewerList";
+
+import InterviewerListItem from "components/InterviewerListItem";
+
 const interviewer = {
   id: 1,
   name: "Sylvia Palmer",
   avatar: "https://i.imgur.com/LpaY82x.png",
 };
-import InterviewerList from "components/InterviewerList";
-
-import InterviewerListItem from "components/InterviewerListItem";
-
 storiesOf("InterviewerListItem", module)
   .addParameters({
     backgrounds: [{ name: "dark", value: "#222f3e", default: true }],
