@@ -3,8 +3,8 @@ import classNames from "classnames";
 
 import "components/DayListItem.scss";
 
-// this sets the action for props
 export default function DayListItem(props) {
+  // this sets the action for props
   const dayClass = classNames("day-list", {
     "day-list__item": true,
     "day-list__item--selected": props.selected,
