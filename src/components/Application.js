@@ -3,36 +3,26 @@ import axios from "axios";
 import DayList from "components/DayList";
 import "components/Application.scss";
 import Appointment from "./Appointment";
-import {getAppointmentsForDay, getInterview} from "helpers/selectors"
+import { getAppointmentsForDay, getInterview } from "helpers/selectors";
 
-
-
-
-
-
- 
 export default function Application(props) {
+  // the state!!
+  const [state, setState] = useState({
+    day: "Monday",
+    days: [],
+    appointments: {},
+    interviewers: {},
+  });
 
+  // const dailyAppointments = getAppointmentsForDay(state, setState);
+  // const dailyAppointments = getAppointmentsForDay(state, state.day);
 
-// the state!!
-const [state, setState] = useState({
-  day: "Monday",
-  days: [],  
-  appointments: {},
-  interviewers: {},
-});
-
-const dailyAppointments = getAppointmentsForDay(state, setState);
-// const dailyAppointments = getAppointmentsForDay(state, state.day);
-
-const setDay = () => {
-  setState({ ...state, day: "Tuesday" });
-}
-// const setDays = (days) => {
-//   setState(prev => ({ ...prev, days }));;
-// }
-
-
+  const setDay = () => {
+    setState({ ...state, day: "Monday" });
+  };
+  // const setDays = (days) => {
+  //   setState(prev => ({ ...prev, days }));;
+  // }
 
   // const appointmentComponents = dailyAppointments.map(appointment =>{
   //   return (
@@ -41,35 +31,38 @@ const setDay = () => {
   // });
 
   const appointments = getAppointmentsForDay(state, state.day);
-const appointmentComponents = appointments.map((appointment) => {
-  const interview = getInterview(state, appointment.interview);
+  const appointmentComponents = appointments.map((appointment) => {
+    const interview = getInterview(state, appointment.interview);
 
-  return (
-    <Appointment
-      key={appointment.id}
-      id={appointment.id}
-      time={appointment.time}
-      interview={interview}
-    />
-  );
-});
+    return (
+      <Appointment
+        key={appointment.id}
+        id={appointment.id}
+        time={appointment.time}
+        interview={interview}
+      />
+    );
+  });
 
-//   // do i need to put this in "GET_DAYS":     http://localhost:8001/api/days,
-// "GET_APPOINTMENTS": http://localhost:8001/api/appointments,
-// "GET_INTERVIEWERS": http://localhost:8001/api/interviewers,
+  //   // do i need to put this in "GET_DAYS":     http://localhost:8001/api/days,
+  // "GET_APPOINTMENTS": http://localhost:8001/api/appointments,
+  // "GET_INTERVIEWERS": http://localhost:8001/api/interviewers,
 
- useEffect(() => {
-  Promise.all([
-    axios.get(`http://localhost:8001/api/days`),
-    axios.get(`http://localhost:8001/api/appointments`),
-    axios.get(`http://localhost:8001/api/interviewers`),
-    
-  ]).then((all) => {
-    console.log("!!!", all)
-    setState(prev =>({...prev, days: all[0].data, appointments: all[1].data, interviewers: all[2].data }))
-  })
-  },[]);
-
+  useEffect(() => {
+    Promise.all([
+      axios.get(`http://localhost:8001/api/days`),
+      axios.get(`http://localhost:8001/api/appointments`),
+      axios.get(`http://localhost:8001/api/interviewers`),
+    ]).then((all) => {
+      console.log("!!!", all);
+      setState((prev) => ({
+        ...prev,
+        days: all[0].data,
+        appointments: all[1].data,
+        interviewers: all[2].data,
+      }));
+    });
+  }, []);
 
   return (
     <main className="layout">
@@ -90,10 +83,9 @@ const appointmentComponents = appointments.map((appointment) => {
         />
       </section>
       <section className="schedule">
-      
-    {appointmentComponents}
-    <Appointment key="last" time="5pm" />
-    </section>
-  </main>
-);
+        {appointmentComponents}
+        <Appointment key="last" time="5pm" />
+      </section>
+    </main>
+  );
 }
