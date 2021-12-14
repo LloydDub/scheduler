@@ -54,8 +54,8 @@ test("getAppointmentsForDay returns an array with a length matching the number o
 
 test("getAppointmentsForDay returns an array containing the correct appointment objects", () => {
   const [first, second] = getAppointmentsForDay(state, "Monday");
-  expect(first).toEqual(state.appointments["4"]);
-  expect(second).toEqual(state.appointments["5"]);
+  expect(first).toEqual(state.appointments["1"]);
+  expect(second).toEqual(state.appointments["2"]);
 });
 
 test("getAppointmentsForDay returns an empty array when the days data is empty", () => {
