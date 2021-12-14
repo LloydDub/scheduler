@@ -19,7 +19,6 @@ export default function Application(props) {
   });
 
   // const dailyAppointments = getAppointmentsForDay(state, setState);
-  // const dailyAppointments = getAppointmentsForDay(state, state.day);
 
   const setDay = () => {
     setState({ ...state, day: "Monday" });
@@ -36,6 +35,21 @@ export default function Application(props) {
 
   const appointments = getAppointmentsForDay(state, state.day);
   const interviewers = getInterviewersForDay(state, state.day);
+
+  //book interview will be passed to each appointment component as props
+
+  function bookInterview(id, interview) {
+    const appointment = {
+      ...state.appointments[id],
+      interview: { ...interview },
+    };
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment,
+    };
+    setState({ ...state, appointments });
+  }
+
   const appointmentComponents = appointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview);
 
@@ -46,6 +60,7 @@ export default function Application(props) {
         time={appointment.time}
         interview={interview}
         interviewers={interviewers}
+        bookInterview={"bookInterview"}
       />
     );
   });

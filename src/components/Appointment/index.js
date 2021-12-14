@@ -1,3 +1,4 @@
+// "appointment" component lives here
 import "components/Appointment/styles.scss";
 import React from "react";
 import Header from "./Header";
@@ -16,6 +17,13 @@ export default function Appointment(props) {
     props.interview ? SHOW : EMPTY
   );
 
+  // We pass this function to the Form component. The Form should capture the name and interviewer and pass them to props.onSave as arguments.
+  function save(name, interviewer) {
+    const interview = {
+      student: name,
+      interviewer,
+    };
+  }
   return (
     <article className="appointment">
       <Header time={props.time} />
