@@ -47,7 +47,12 @@ export default function Application(props) {
       ...state.appointments,
       [id]: appointment,
     };
+
     setState({ ...state, appointments });
+    return axios
+      .put(`/api/appointments/${id}`, { interview })
+      .then(() => setState({ ...state, appointments }))
+      .catch((err) => console.log(err));
   }
 
   const appointmentComponents = appointments.map((appointment) => {
@@ -60,7 +65,7 @@ export default function Application(props) {
         time={appointment.time}
         interview={interview}
         interviewers={interviewers}
-        bookInterview={"bookInterview"}
+        bookInterview={bookInterview}
       />
     );
   });
