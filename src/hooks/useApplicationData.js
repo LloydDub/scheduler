@@ -27,10 +27,13 @@ export default function useApplicationData() {
     };
 
     setState({ ...state, appointments });
+    const days = updateSpots(-1);
+
     return axios
       .put(`/api/appointments/${id}`, { interview })
-      .then(() => setState({ ...state, appointments }));
+      .then(() => setState({ ...state, appointments, days }));
   }
+
   const cancelInterview = (id) => {
     const appointment = {
       ...state.appointments[id],
@@ -41,11 +44,24 @@ export default function useApplicationData() {
       ...state.appointments,
       [id]: appointment,
     };
-
+    const days = updateSpots(1);
     return axios
       .delete(`/api/appointments/${id}`)
-      .then(() => setState({ ...state, appointments }))
+      .then(() => setState({ ...state, appointments, days }))
       .catch((err) => console.log(err));
+  };
+
+  const updateSpots = function (num) {
+    const currentDay = state.day;
+
+    const days = state.days.map((day) => {
+      if (day.name === currentDay) {
+        day.spots += num;
+      }
+      return day;
+    });
+
+    return days;
   };
 
   useEffect(() => {
